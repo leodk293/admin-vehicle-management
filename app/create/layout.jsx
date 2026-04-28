@@ -1,7 +1,7 @@
 import React from "react";
 
 export const metadata = {
-  title: "Create Vehicle",
+  title: "Locomote Admin | Create Vehicle",
 };
 
 export default function layout({ children }) {

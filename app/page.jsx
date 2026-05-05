@@ -1,12 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Car, Users, Toolbox, AlertOctagon } from "lucide-react"; // Example icons
+import { Car, Users, Toolbox } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
-import { nanoid } from "nanoid";
 import Image from "next/image";
 
 export default function Home() {
   const [vehicles, setVehicles] = useState([]);
+  const [clients, setClients] = useState();
   const supabase = createClient();
   async function getVehicles() {
     try {
@@ -21,8 +21,29 @@ export default function Home() {
     }
   }
 
+  async function getClients() {
+    try {
+      const { data, error } = await supabase.from("clients").select("*");
+      if (error) {
+        throw new Error(`An error has occurred : ${error.message}`);
+      }
+      setClients(data?.length ?? 0);
+    } catch (error) {
+      console.error(error?.message ?? error);
+      setClients(0);
+    }
+  }
+
+  const rentedVehiclesCount = vehicles.length
+    ? vehicles.filter((vehicle) => !vehicle.disponible).length
+    : 0;
+  const availableVehiclesCount = vehicles.length
+    ? vehicles.filter((vehicle) => vehicle.disponible).length
+    : 0;
+
   useEffect(() => {
     getVehicles();
+    getClients();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -30,7 +51,7 @@ export default function Home() {
       {/* Header Section */}
       <header className="mb-12 flex flex-col items-center w-full">
         <h1 className="text-5xl text-center font-extrabold tracking-tight pb-2 bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-500 bg-clip-text text-transparent">
-          Vehicle Management System
+          Locomote Admin System
         </h1>
         <p className="text-lg text-gray-300">
           Welcome back,{" "}
@@ -56,23 +77,19 @@ export default function Home() {
         />
         <StatCard
           title="Total Clients"
-          value="89"
+          value={clients}
           icon={<Users size={32} />}
           color="from-green-600 to-teal-400"
         />
         <StatCard
-          title="In Service"
-          value="12"
+          title="Vehicles Rented"
+          value={rentedVehiclesCount}
           icon={<Toolbox size={32} />}
           color="from-yellow-500 to-orange-400"
         />
         <StatCard
           title="Vehicles Available"
-          value={
-            vehicles.length
-              ? vehicles.filter((v) => !v.en_service).length
-              : "--"
-          }
+          value={availableVehiclesCount}
           icon={<Car size={32} />}
           color="from-cyan-500 to-green-400"
         />
@@ -100,13 +117,13 @@ export default function Home() {
                   <span
                     className={`absolute top-2 right-2 text-xs px-2 py-1 rounded-full
                     ${
-                      vehicle.en_service
-                        ? "bg-amber-300 text-amber-900"
-                        : "bg-green-300 text-green-900"
+                      vehicle.disponible
+                        ? "bg-green-300 text-green-900"
+                        : "bg-amber-300 text-amber-900"
                     } 
                     backdrop-blur-2xl font-semibold shadow-md`}
                   >
-                    {vehicle.en_service ? "In Service" : "Available"}
+                    {vehicle.disponible ? "Available" : "Rented"}
                   </span>
                 </div>
                 <div className="p-4 flex flex-col gap-2">

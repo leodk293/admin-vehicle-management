@@ -28,7 +28,7 @@ export default function Locations() {
   return (
     <div className="flex flex-col items-center w-full px-4 py-8 gap-7 text-white min-h-[70vh] ">
       <h1 className="text-4xl font-extrabold tracking-tight pb-1 text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-500">
-        Current User Locations
+        Current User Rentals
       </h1>
       {locations.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 w-full max-w-6xl">

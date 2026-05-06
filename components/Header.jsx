@@ -1,62 +1,115 @@
 "use client";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import { signInWithGoogle, getSession, signOut } from "@/utils/auth";
 import Image from "next/image";
+import { signInWithGoogle, getSession, signOut } from "@/utils/auth";
+
+const navLinks = [
+  { href: "/create", label: "Create" },
+  { href: "/vehicles", label: "Vehicles" },
+  { href: "/locations", label: "Locations" },
+];
 
 export default function Header() {
   const [session, setSession] = useState(null);
+
   async function fetchSession() {
-    const session = await getSession();
-    console.log("User session:", session);
-    setSession(session);
+    const s = await getSession();
+    setSession(s);
   }
 
   useEffect(() => {
-    (async () => {
-      await fetchSession();
-    })();
-  }, [session]);
+    fetchSession();
+  }, []);
+
+  const user = session?.user;
+
   return (
-    <header className="w-full flex flex-wrap justify-evenly h-16 py-4 bg-black/5 border-b border-gray-800">
-      <Link href="/">
-        <h1 className="text-4xl text-center text-white font-bold">Dashboard</h1>
+    <header className="w-full bg-[#0b0f1a] border-b border-white/[0.07] px-6 h-14 flex items-center justify-between gap-4">
+      {/* Logo */}
+      <Link href="/" className="flex items-center gap-2 shrink-0 group">
+        <span className="w-2 h-2 rounded-full bg-violet-500 group-hover:bg-violet-400 transition-colors" />
+        <span className="font-extrabold text-base tracking-tight text-white">
+          Locomote
+        </span>
       </Link>
-      <nav className=" self-center flex text-white flex-row gap-3">
-        <Link href={"/create"}>Create</Link>
-        <Link href={"/vehicles"}>Vehicles</Link>
-        <Link href={"/locations"}>Locations</Link>
-      </nav>
-      {session?.user ? (
-        <div className="hidden sm:flex items-center gap-1">
-          <div className="flex items-center gap-2 p-1 rounded-full">
-            {session.user.user_metadata.avatar_url && (
-              <Image
-                src={session.user.user_metadata.avatar_url}
-                alt="User Avatar"
-                width={32}
-                height={32}
-                className="rounded-full border border-white/12 bg-white/6"
-              />
-            )}
-            <p className="text-[13px] text-white/45">{session.user.name}</p>
-          </div>
-          <button
-            onClick={() => signOut()}
-            className="text-[13px] cursor-pointer text-white/45 p-2 font-medium rounded-full hover:text-white/85 hover:bg-white/5 no-underline transition-colors duration-150"
+
+      {/* Nav */}
+      <nav className="hidden sm:flex items-center gap-1">
+        {navLinks.map(({ href, label }) => (
+          <Link
+            key={href}
+            href={href}
+            className="text-[13px] text-gray-400 font-medium px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 transition-colors duration-150"
           >
-            Sign Out
+            {label}
+          </Link>
+        ))}
+      </nav>
+
+      {/* Auth */}
+      <div className="flex items-center gap-2 shrink-0">
+        {user ? (
+          <>
+            {/* Avatar + name */}
+            <div className="hidden sm:flex items-center gap-2 px-2 py-1 rounded-lg bg-white/[0.04] border border-white/[0.07]">
+              {user.user_metadata?.avatar_url && (
+                <Image
+                  src={user.user_metadata.avatar_url}
+                  alt="Avatar"
+                  width={24}
+                  height={24}
+                  className="rounded-full ring-1 ring-white/10"
+                />
+              )}
+              <span className="text-[13px] text-gray-400 max-w-[120px] truncate">
+                {user.user_metadata?.full_name ?? user.email}
+              </span>
+            </div>
+
+            {/* Sign out */}
+            <button
+              onClick={() => signOut()}
+              className="text-[13px] font-medium text-gray-500 px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 border border-transparent hover:border-white/[0.07] transition-all duration-150 cursor-pointer"
+            >
+              Sign out
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={signInWithGoogle}
+            className="flex items-center gap-2 text-[13px] font-semibold text-white bg-violet-600 hover:bg-violet-500 px-4 py-1.5 rounded-lg transition-colors duration-150 cursor-pointer"
+          >
+            <svg
+              className="w-4 h-4"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                fill="#fff"
+                opacity=".9"
+              />
+              <path
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                fill="#fff"
+                opacity=".9"
+              />
+              <path
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                fill="#fff"
+                opacity=".7"
+              />
+              <path
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                fill="#fff"
+                opacity=".9"
+              />
+            </svg>
+            Sign in with Google
           </button>
-        </div>
-      ) : (
-        <button
-          onClick={signInWithGoogle}
-          className=" border border-transparent rounded-sm text-lg font-medium text-white bg-blue-800 px-4 py-2"
-        >
-          Signin with google
-        </button>
-      )}
+        )}
+      </div>
     </header>
   );
 }

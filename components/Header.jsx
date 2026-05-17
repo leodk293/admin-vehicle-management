@@ -14,13 +14,9 @@ const navLinks = [
 
 export default function Header() {
   const [session, setSession] = useState(null);
-  const router = useRouter();
 
   async function fetchSession() {
     const s = await getSession();
-    if(s){
-      router.push("https://locomote-admin.vercel.app")
-    }
     setSession(s);
   }
 
@@ -54,10 +50,10 @@ export default function Header() {
       </nav>
 
       {/* Auth */}
-      <div className="flex items-center gap-2 shrink-0">
+      {/* <div className="flex items-center gap-2 shrink-0">
         {user ? (
           <>
-            {/* Avatar + name */}
+           
             <div className="hidden sm:flex items-center gap-2 px-2 py-1 rounded-lg bg-white/[0.04] border border-white/[0.07]">
               {user.user_metadata?.avatar_url && (
                 <Image
@@ -73,7 +69,7 @@ export default function Header() {
               </span>
             </div>
 
-            {/* Sign out */}
+            
             <button
               onClick={() => signOut()}
               className="text-[13px] font-medium text-gray-500 px-3 py-1.5 rounded-lg hover:text-white hover:bg-white/5 border border-transparent hover:border-white/[0.07] transition-all duration-150 cursor-pointer"
@@ -115,7 +111,7 @@ export default function Header() {
             Sign in with Google
           </button>
         )}
-      </div>
+      </div> */}
     </header>
   );
 }

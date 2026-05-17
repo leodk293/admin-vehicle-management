@@ -7,7 +7,7 @@ import { signInWithGoogle, getSession, signOut } from "@/utils/auth";
 const navLinks = [
   { href: "/create", label: "Create" },
   { href: "/vehicles", label: "Vehicles" },
-  { href: "/locations", label: "Locations" },
+  { href: "/locations", label: "Rentals" },
 ];
 
 export default function Header() {

@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { signInWithGoogle, getSession, signOut } from "@/utils/auth";
 
 const navLinks = [
@@ -10,11 +11,16 @@ const navLinks = [
   { href: "/locations", label: "Rentals" },
 ];
 
+
 export default function Header() {
   const [session, setSession] = useState(null);
+  const router = useRouter();
 
   async function fetchSession() {
     const s = await getSession();
+    if(s){
+      router.push("https://locomote-admin.vercel.app")
+    }
     setSession(s);
   }
 

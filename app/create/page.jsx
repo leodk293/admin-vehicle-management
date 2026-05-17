@@ -122,11 +122,11 @@ export default function Create() {
         <div className="flex items-center gap-2 mb-2">
           <span className="w-1.5 h-1.5 rounded-full bg-violet-500 inline-block" />
           <span className="text-[11px] tracking-widest uppercase text-gray-500">
-            Gestion de flotte
+            Fleet mangement
           </span>
         </div>
         <h2 className="text-2xl font-extrabold tracking-tight text-white">
-          Ajouter un véhicule
+          Add a vechicle
         </h2>
       </div>
 
@@ -137,7 +137,7 @@ export default function Create() {
         {/* Section: Identité */}
         <fieldset className="space-y-4">
           <legend className="text-[11px] uppercase tracking-widest text-gray-600 mb-3">
-            Identité
+            Identity
           </legend>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <label className={labelClass}>
@@ -152,7 +152,7 @@ export default function Create() {
               />
             </label>
             <label className={labelClass}>
-              Marque
+              Brand
               <input
                 required
                 name="marque"
@@ -163,7 +163,7 @@ export default function Create() {
               />
             </label>
             <label className={labelClass}>
-              Modèle
+              Model
               <input
                 required
                 name="modele"
@@ -182,11 +182,11 @@ export default function Create() {
         {/* Section: Caractéristiques */}
         <fieldset className="space-y-4">
           <legend className="text-[11px] uppercase tracking-widest text-gray-600 mb-3">
-            Caractéristiques
+            Characteristics
           </legend>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <label className={labelClass}>
-              Catégorie
+              Category
               <select
                 name="categorie"
                 value={formData.categorie}
@@ -207,12 +207,12 @@ export default function Create() {
                 onChange={handleChange}
                 className={inputClass}
               >
-                <option value="Manuelle">Manuelle</option>
-                <option value="Automatique">Automatique</option>
+                <option value="Manuelle">Manual</option>
+                <option value="Automatique">Automatic</option>
               </select>
             </label>
             <label className={labelClass}>
-              Carburant
+              Fuel
               <select
                 name="carburant"
                 value={formData.carburant}
@@ -234,11 +234,11 @@ export default function Create() {
         {/* Section: Tarif & Image */}
         <fieldset className="space-y-4">
           <legend className="text-[11px] uppercase tracking-widest text-gray-600 mb-3">
-            Tarif & Image
+            Price & Image
           </legend>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label className={labelClass}>
-              Prix journalier (EUR)
+              Daily price (EUR)
               <input
                 required
                 min="0"
@@ -252,7 +252,7 @@ export default function Create() {
               />
             </label>
             <label className={labelClass}>
-              Photo du véhicule
+              Vehicle photo
               <input
                 type="file"
                 accept="image/*"
@@ -276,7 +276,7 @@ export default function Create() {
                 className="object-cover block"
               />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex items-center justify-center">
-                <span className="text-[11px] text-white/70">Aperçu</span>
+                <span className="text-[11px] text-white/70">Overview</span>
               </div>
             </div>
           )}
@@ -299,7 +299,7 @@ export default function Create() {
             <div className="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white/40 peer-checked:bg-white peer-checked:translate-x-4 transition-all duration-200" />
           </div>
           <span className="text-[13px] text-gray-400 group-hover:text-gray-300 transition-colors">
-            Véhicule disponible à la location
+            Vehicle available for rent
           </span>
         </label>
 
@@ -327,7 +327,7 @@ export default function Create() {
             {isSubmitting ? (
               <>
                 <span className="w-3.5 h-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                Création...
+                Creating...
               </>
             ) : (
               "Créer le véhicule"
@@ -338,7 +338,7 @@ export default function Create() {
             onClick={resetForm}
             className="text-[13px] text-gray-500 hover:text-gray-300 px-4 py-2.5 rounded-lg hover:bg-white/5 border border-transparent hover:border-white/[0.07] transition-all duration-150 cursor-pointer"
           >
-            Réinitialiser
+            Reset
           </button>
         </div>
       </form>

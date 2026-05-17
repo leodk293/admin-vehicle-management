@@ -152,7 +152,7 @@ export default function EditVehiclePage() {
       <section className="max-w-3xl mx-auto px-4 py-10">
         <div className="flex items-center gap-3 text-gray-500 py-16 justify-center">
           <div className="w-5 h-5 rounded-full border-2 border-gray-700 border-t-violet-500 animate-spin" />
-          <span className="text-sm">Chargement du véhicule...</span>
+          <span className="text-sm">Vehicle loading...</span>
         </div>
       </section>
     );
@@ -165,18 +165,18 @@ export default function EditVehiclePage() {
         <div className="flex items-center gap-2 mb-2">
           <span className="w-1.5 h-1.5 rounded-full bg-violet-500 inline-block" />
           <span className="text-[11px] tracking-widest uppercase text-gray-500">
-            Gestion de flotte
+            Fleet mangement
           </span>
         </div>
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-extrabold tracking-tight text-white">
-            Modifier un véhicule
+            Edit a vehicle
           </h2>
           <Link
             href="/vehicles"
             className="text-[13px] text-gray-500 hover:text-gray-300 px-3 py-1.5 rounded-lg hover:bg-white/5 border border-transparent hover:border-white/[0.07] transition-all duration-150"
           >
-            ← Retour à la liste
+            ← Back to the list
           </Link>
         </div>
       </div>
@@ -188,7 +188,7 @@ export default function EditVehiclePage() {
         {/* Section: Identité */}
         <fieldset className="space-y-4">
           <legend className="text-[11px] uppercase tracking-widest text-gray-600 mb-3">
-            Identité
+            Identity
           </legend>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <label className={labelClass}>
@@ -203,7 +203,7 @@ export default function EditVehiclePage() {
               />
             </label>
             <label className={labelClass}>
-              Marque
+              Brand
               <input
                 required
                 name="marque"
@@ -214,7 +214,7 @@ export default function EditVehiclePage() {
               />
             </label>
             <label className={labelClass}>
-              Modèle
+              Model
               <input
                 required
                 name="modele"
@@ -232,11 +232,11 @@ export default function EditVehiclePage() {
         {/* Section: Caractéristiques */}
         <fieldset className="space-y-4">
           <legend className="text-[11px] uppercase tracking-widest text-gray-600 mb-3">
-            Caractéristiques
+            Caracteristics
           </legend>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <label className={labelClass}>
-              Catégorie
+              Category
               <select
                 name="categorie"
                 value={formData.categorie}
@@ -257,12 +257,12 @@ export default function EditVehiclePage() {
                 onChange={handleChange}
                 className={inputClass}
               >
-                <option value="Manuelle">Manuelle</option>
-                <option value="Automatique">Automatique</option>
+                <option value="Manuelle">Manual</option>
+                <option value="Automatique">Automatic</option>
               </select>
             </label>
             <label className={labelClass}>
-              Carburant
+              Fuel
               <select
                 name="carburant"
                 value={formData.carburant}
@@ -283,11 +283,11 @@ export default function EditVehiclePage() {
         {/* Section: Tarif & Image */}
         <fieldset className="space-y-4">
           <legend className="text-[11px] uppercase tracking-widest text-gray-600 mb-3">
-            Tarif & Image
+            Price & Image
           </legend>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <label className={labelClass}>
-              Prix journalier (EUR)
+              Daily Price (EUR)
               <input
                 required
                 min="0"
@@ -301,7 +301,7 @@ export default function EditVehiclePage() {
               />
             </label>
             <label className={labelClass}>
-              Photo du véhicule
+              Vehicle Photo
               <input
                 type="file"
                 accept="image/*"
@@ -326,7 +326,7 @@ export default function EditVehiclePage() {
                 className="object-cover block"
               />
               <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-150 flex items-center justify-center">
-                <span className="text-[11px] text-white/70">Aperçu</span>
+                <span className="text-[11px] text-white/70">Overview</span>
               </div>
             </div>
           )}
@@ -348,7 +348,7 @@ export default function EditVehiclePage() {
             <div className="absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white/40 peer-checked:bg-white peer-checked:translate-x-4 transition-all duration-200" />
           </div>
           <span className="text-[13px] text-gray-400 group-hover:text-gray-300 transition-colors">
-            Véhicule disponible à la location
+           Vehicle available for rent
           </span>
         </label>
 
@@ -376,7 +376,7 @@ export default function EditVehiclePage() {
             {isSubmitting ? (
               <>
                 <span className="w-3.5 h-3.5 rounded-full border-2 border-white/30 border-t-white animate-spin" />
-                Enregistrement...
+                Saving...
               </>
             ) : (
               "Enregistrer les modifications"
@@ -386,7 +386,7 @@ export default function EditVehiclePage() {
             href="/vehicles"
             className="text-[13px] text-gray-500 hover:text-gray-300 px-4 py-2.5 rounded-lg hover:bg-white/5 border border-transparent hover:border-white/[0.07] transition-all duration-150"
           >
-            Annuler
+            Cancel
           </Link>
         </div>
       </form>

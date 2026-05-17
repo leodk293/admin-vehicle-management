@@ -23,7 +23,7 @@ export default function Vehicles() {
       if (error) {
         setMessage({
           type: "error",
-          text: `Chargement des véhicules impossible: ${error.message}`,
+          text: `Impossible to download vehicles: ${error.message}`,
         });
         setVehicles([]);
       } else {
@@ -62,15 +62,15 @@ export default function Vehicles() {
         <div className="flex items-center gap-2 mb-2">
           <span className="w-1.5 h-1.5 rounded-full bg-violet-500 inline-block" />
           <span className="text-[11px] tracking-widest uppercase text-gray-500">
-            Gestion de flotte
+            Fleet mangement
           </span>
         </div>
         <div className="flex items-center justify-between">
           <h2 className="text-2xl font-extrabold tracking-tight text-white">
-            Liste des véhicules
+            Vehicle List
           </h2>
           <span className="text-[11px] text-gray-500 bg-white/[0.04] border border-white/[0.07] rounded-full px-3 py-1">
-            {vehicles.length} véhicule{vehicles.length !== 1 ? "s" : ""}
+            {vehicles.length} vehicle{vehicles.length !== 1 ? "s" : ""}
           </span>
         </div>
       </div>
@@ -93,17 +93,17 @@ export default function Vehicles() {
       {loading ? (
         <div className="flex items-center gap-3 text-gray-500 py-16 justify-center">
           <div className="w-5 h-5 rounded-full border-2 border-gray-700 border-t-violet-500 animate-spin" />
-          <span className="text-sm">Chargement des véhicules...</span>
+          <span className="text-sm">Vehicle loading...</span>
         </div>
       ) : vehicles.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-gray-600 gap-3">
           <Car size={32} />
-          <p className="text-sm">Aucun véhicule trouvé.</p>
+          <p className="text-sm">No vehicles found.</p>
           <Link
             href="/create"
             className="text-[13px] text-violet-400 hover:text-violet-300 transition-colors"
           >
-            Ajouter un véhicule →
+            Add a vehicle →
           </Link>
         </div>
       ) : (
@@ -113,13 +113,13 @@ export default function Vehicles() {
               <tr className="border-b border-white/[0.06] bg-[#0b0f1a]/60">
                 <th className={thClass}>Image</th>
                 <th className={thClass}>Immatriculation</th>
-                <th className={thClass}>Marque</th>
-                <th className={thClass}>Modèle</th>
-                <th className={thClass}>Catégorie</th>
+                <th className={thClass}>Brand</th>
+                <th className={thClass}>Model</th>
+                <th className={thClass}>Category</th>
                 <th className={thClass}>Transmission</th>
-                <th className={thClass}>Carburant</th>
-                <th className={thClass}>Prix / Jour</th>
-                <th className={thClass}>Statut</th>
+                <th className={thClass}>Fuel</th>
+                <th className={thClass}>Price / day</th>
+                <th className={thClass}>Status</th>
                 <th className={thClass}>Actions</th>
               </tr>
             </thead>
@@ -207,7 +207,7 @@ export default function Vehicles() {
                         href={`/vehicles/${vehicle.id}/edit`}
                         className="text-[12px] font-medium text-gray-400 hover:text-white px-3 py-1.5 rounded-lg border border-white/[0.07] hover:border-white/20 hover:bg-white/5 transition-all duration-150"
                       >
-                        Modifier
+                        Edit
                       </Link>
                       <button
                         onClick={() => deleteVehicle(vehicle.id)}
@@ -217,10 +217,10 @@ export default function Vehicles() {
                         {deletingId === vehicle.id ? (
                           <span className="flex items-center gap-1.5">
                             <span className="w-3 h-3 rounded-full border border-red-500/30 border-t-red-400 animate-spin" />
-                            Suppression...
+                            Deleting...
                           </span>
                         ) : (
-                          "Supprimer"
+                          "Delete"
                         )}
                       </button>
                     </div>

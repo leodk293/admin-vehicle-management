@@ -3,10 +3,12 @@ import React, { useState, useEffect } from "react";
 import { Car, Users, Key, CheckCircle } from "lucide-react";
 import { createClient } from "@/utils/supabase/client";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Home() {
   const [vehicles, setVehicles] = useState([]);
   const [clients, setClients] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const supabase = createClient();
 
   async function getVehicles() {
@@ -17,6 +19,8 @@ export default function Home() {
     } catch (error) {
       console.error(error?.message ?? error);
       setVehicles([]);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -31,8 +35,8 @@ export default function Home() {
     }
   }
 
-  const rentedCount = vehicles.filter((v) => !v.disponible).length;
-  const availableCount = vehicles.filter((v) => v.disponible).length;
+  const rentedCount = isLoading ? 0 : vehicles.filter((v) => !v.disponible).length;
+  const availableCount = isLoading ? 0 : vehicles.filter((v) => v.disponible).length;
 
   useEffect(() => {
     getVehicles();
@@ -67,24 +71,28 @@ export default function Home() {
           value={vehicles.length}
           icon={<Car size={18} />}
           accent="blue"
+          loading={isLoading}
         />
         <KpiCard
           label="Total Clients"
           value={clients}
           icon={<Users size={18} />}
           accent="teal"
+          loading={isLoading}
         />
         <KpiCard
           label="Vehicles Rented"
           value={rentedCount}
           icon={<Key size={18} />}
           accent="amber"
+          loading={isLoading}
         />
         <KpiCard
           label="Available"
           value={availableCount}
           icon={<CheckCircle size={18} />}
           accent="green"
+          loading={isLoading}
         />
       </div>
 
@@ -94,20 +102,29 @@ export default function Home() {
           Fleet Overview
         </h2>
         <span className="text-[11px] text-gray-500 bg-white/5 border border-white/10 rounded-full px-3 py-1">
-          {vehicles.length > 0 ? `${vehicles.length} vehicles` : "Loading..."}
+          {isLoading
+            ? "Loading..."
+            : vehicles.length > 0
+            ? `${vehicles.length} vehicles`
+            : "No vehicles"}
         </span>
       </div>
 
-      {vehicles.length > 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+          {Array.from({ length: 5 }).map((_, idx) => (
+            <VehicleSkeleton key={idx} />
+          ))}
+        </div>
+      ) : vehicles.length > 0 ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
           {vehicles.map((vehicle) => (
             <VehicleCard key={vehicle.id} vehicle={vehicle} />
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center py-20 text-gray-600 gap-3">
-          <div className="w-7 h-7 rounded-full border-2 border-gray-700 border-t-violet-500 animate-spin" />
-          <p className="text-sm">Loading vehicles...</p>
+        <div className="flex flex-col items-center justify-center py-20 text-gray-400 gap-3">
+          <p className="text-sm">No vehicles available yet.</p>
         </div>
       )}
     </div>
@@ -139,7 +156,7 @@ const accentMap = {
   },
 };
 
-function KpiCard({ label, value, icon, accent }) {
+function KpiCard({ label, value, icon, accent, loading }) {
   const { bar, iconBg, iconColor } = accentMap[accent];
   return (
     <div className="relative bg-[#131924] border border-white/[0.07] rounded-xl p-5 overflow-hidden">
@@ -154,7 +171,22 @@ function KpiCard({ label, value, icon, accent }) {
       <p className="text-[11px] uppercase tracking-widest text-gray-500 mb-1">
         {label}
       </p>
-      <p className="text-3xl font-bold text-white tracking-tight">{value}</p>
+      <p className="text-3xl font-bold text-white tracking-tight">
+        {loading ? <span className="inline-block h-8 w-16 rounded-xl bg-white/10 animate-pulse" /> : value}
+      </p>
+    </div>
+  );
+}
+
+function VehicleSkeleton() {
+  return (
+    <div className="bg-[#131924] border border-white/[0.07] rounded-xl overflow-hidden animate-pulse">
+      <div className="h-28 w-full bg-white/5" />
+      <div className="p-3 space-y-3">
+        <div className="h-4 w-3/4 rounded-full bg-white/10" />
+        <div className="h-3 w-1/2 rounded-full bg-white/10" />
+        <div className="h-8 w-full rounded-full bg-white/10" />
+      </div>
     </div>
   );
 }
@@ -167,13 +199,15 @@ function VehicleCard({ vehicle }) {
       {/* Image */}
       <div className="relative h-28 w-full bg-[#0f1520]">
         {vehicle.image_url ? (
-          <Image
-            src={vehicle.image_url}
-            alt={vehicle.marque}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-300"
-            sizes="(max-width: 768px) 50vw, 20vw"
-          />
+         <Link href={`/vehicles/${vehicle.id}`}>
+           <Image
+             src={vehicle.image_url}
+             alt={vehicle.marque}
+             fill
+             className="object-cover group-hover:scale-105 transition-transform duration-300"
+             sizes="(max-width: 768px) 50vw, 20vw"
+           />
+         </Link>
         ) : (
           <div className="w-full h-full flex items-center justify-center text-gray-700">
             <Car size={28} />
